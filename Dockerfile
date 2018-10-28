@@ -6,4 +6,4 @@ RUN gcloud components install kubectl
 RUN apk update
 RUN apk add gettext
 RUN apk add docker
-ENTRYPOINT service docker start
+RUN rc-update add docker boot
