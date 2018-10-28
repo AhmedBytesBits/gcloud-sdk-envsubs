@@ -1,15 +1,25 @@
-# using node 8.1.1 the latest supported by firebase
-# using alpine to boost CI/CD pipline by using the lightweight linux alpine
+FROM google/cloud-sdk:latest
+MAINTAINER Ahmed Elshalaby <a.elshalaby@e-tawasol.com>
+ENV PATH="/google-cloud-sdk/bin:$PATH"
+WORKDIR /
+RUN apk update
+RUN apk add gettext
 
-FROM node:8.11.1-alpine
 
-USER node
-RUN mkdir /home/node/.npm-global
-ENV PATH=/home/node/.npm-global/bin:$PATH
-ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 
-# update npm to patch any vulnerbalities
-RUN npm i npm@latest -g
+#install Kubectl
+#credit to wernight/kubectl container
 
-# install Firebase CLI
-RUN npm install -g firebase-tools
+ADD https://storage.googleapis.com/kubernetes-release/release/v1.6.4/bin/linux/amd64/kubectl /usr/local/bin/kubectl
+ENV HOME=/config
+RUN set -x && \
+    apk add --no-cache curl ca-certificates && \
+    chmod +x /usr/local/bin/kubectl && \
+    \
+    # Create non-root user (with a randomly chosen UID/GUI).
+    adduser kubectl -Du 2342 -h /config && \
+    \
+    # Basic check it works.
+    kubectl version --client
+
+USER kubectl
