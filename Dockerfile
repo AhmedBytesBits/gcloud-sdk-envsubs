@@ -5,3 +5,4 @@ WORKDIR /
 RUN gcloud components install kubectl
 RUN apk update
 RUN apk add gettext
+RUN apk add docker
