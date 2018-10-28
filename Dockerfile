@@ -4,4 +4,4 @@ ENV PATH="/google-cloud-sdk/bin:$PATH"
 WORKDIR /
 RUN gcloud components install kubectl
 RUN apk update
-RUN apt-get add gettext
+RUN apk add gettext
