@@ -4,6 +4,5 @@ ENV PATH="/google-cloud-sdk/bin:$PATH"
 WORKDIR /
 RUN gcloud components install kubectl
 RUN apk update
-RUN apk add gettext
-RUN apk add docker
+RUN apk add gettext docker openrc
 RUN rc-update add docker boot
